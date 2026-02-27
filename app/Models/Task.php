@@ -16,4 +16,11 @@ class Task extends Model
         'assignee_id',
         'deleted_at',
     ];
+
+    protected function casts()
+    {
+        return [
+          'deadline' => 'datetime',
+        ];
+    }
 }
