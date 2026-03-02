@@ -11,6 +11,15 @@ class TaskStatusLog extends Model
         'user_id',
         'old-status',
         'new-status',
-        'created_at',
     ];
+
+    public function task()
+    {
+        return $this->belongsTo(Task::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
