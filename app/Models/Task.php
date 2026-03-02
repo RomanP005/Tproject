@@ -14,7 +14,6 @@ class Task extends Model
         'deadline',
         'project_id',
         'assignee_id',
-        'deleted_at',
     ];
 
     protected function casts()
@@ -22,5 +21,28 @@ class Task extends Model
         return [
           'deadline' => 'datetime',
         ];
+    }
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+    public function taskstatuslogs()
+    {
+        return $this->hasMany(TaskStatusLog::class);
+    }
+    public function assignee()
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function setStatusAttribute($value)
+    {
+        $allowedTransitions = [
+            'new' => ['job'], 'job' => ['success'], 'success' => [],
+        ];
+        $old = $this->status ?? 'new';
+        if ($old !== $value && !in_array($value, $allowedTransitions[$old] ?? [])) {
+            throw new \Exception("Invalid status transition from {$old} to {$value}");
+        }
+        $this->attributes['status'] = $value;
     }
 }
