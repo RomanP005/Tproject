@@ -1,17 +1,32 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">Таск-трекер на Laravel</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <div class="container">
+        <a class="navbar-brand" href="{{ url('/') }}">Таск-трекер на Laravel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                    <li><a class="nav-link active" href="{{ route('register') }}">Регистрация</a></li>
-                    <li><a class="nav-link active" href="{{ route('login') }}">Вход</a></li>
-                <li><a class="nav-link active" href="{{ route('logout') }}">Выйти</a></li>
-{{--              q--}}
-{{--                    <li><a class="nav-link active" href="#">Pricing</a></li>--}}
-{{--                    <li><a class="nav-link active" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li>--}}
+                @auth()
+                    <li class="nav-item">
+                        <span class="navbar-text me-2">{{ Auth::user()->name }}</span>
+                    </li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn btn-link nav-link"
+                                    style="display: inline; padding: 0; border: none; background: none; color: rgba(255,255,255,.55); text-decoration: none; cursor: pointer;">
+                                Выйти
+                            </button>
+                        </form>
+                    </li>
+                @else
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                    </li>
+                @endauth
             </ul>
         </div>
     </div>

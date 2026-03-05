@@ -13,7 +13,7 @@ class Task extends Model
         'priority',
         'deadline',
         'project_id',
-        'assignee_id',
+        'user_id',
     ];
 
     protected function casts()
@@ -30,7 +30,7 @@ class Task extends Model
     {
         return $this->hasMany(TaskStatusLog::class);
     }
-    public function assignee()
+    public function users()
     {
         return $this->belongsTo(User::class);
     }
