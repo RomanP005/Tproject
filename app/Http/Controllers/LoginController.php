@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class LoginController extends Controller
 {
-    public function showLoginForm()
+    public function Logination()
     {
         return view('auth.login');
     }
@@ -19,7 +19,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->route('home')->with('success', 'Авторизация успешна!');
+            return redirect()->route('tasks.index')->with('success', 'Авторизация успешна!');
         }
 
         return back()->withErrors([
