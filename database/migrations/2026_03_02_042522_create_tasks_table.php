@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->enum('status', ['new', 'job', 'success'])->default('new');
+            $table->enum('status', ['Новый', 'В работе', 'Выполнена'])->default('Новый');
             $table->unsignedTinyInteger('priority')->default(1);
             $table->date('deadline')->nullable();
             $table->foreignId('project_id')->constrained('projects')->cascadeOnDelete()->cascadeOnUpdate();
@@ -26,5 +26,8 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('tasks');
+        Schema::table('tasks', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };
