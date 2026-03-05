@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
-    public function showRegistrationForm()
+    public function Registration()
     {
         return view('auth.register');
     }
@@ -25,9 +25,8 @@ class RegisterController extends Controller
 
         event(new Registered($user));
 
-        // Автоматический вход после регистрации (можно убрать)
         auth()->login($user);
 
-        return redirect()->route('home')->with('success', 'Регистрация успешна!');
+        return redirect()->route('tasks.index')->with('success', 'Регистрация успешна!');
     }
 }
