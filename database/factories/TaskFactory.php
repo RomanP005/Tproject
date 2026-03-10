@@ -13,13 +13,14 @@ class TaskFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => $this->faker->sentence(3),
+            'title'       => $this->faker->sentence(3),
             'description' => $this->faker->paragraph(),
-            'status' => $this->faker->randomElement(['Новый', 'В работе', 'Выполнена']),
-            'priority' => $this->faker->numberBetween(1, 3),
-            'deadline' => $this->faker->dateTimeBetween('now', '+7 days'),
-            'project_id' => Project::factory(),
-            'user_id' => User::factory(),
+            'status'      => 'Новый',
+            'priority'    => $this->faker->numberBetween(1, 3),
+            'deadline'    => $this->faker->dateTimeBetween('now', '+7 days'),
+            'project_id'  => Project::factory(),
+            'user_id'     => User::factory(),
+            'assignee_id' => User::factory(),
         ];
     }
 }
