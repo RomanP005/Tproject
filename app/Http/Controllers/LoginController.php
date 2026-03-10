@@ -19,7 +19,7 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
-            return redirect()->route('tasks.index')->with('success', 'Авторизация успешна!');
+            return redirect()->route('tasks.index');
         }
 
         return back()->withErrors([
@@ -27,11 +27,11 @@ class LoginController extends Controller
         ])->onlyInput('email');
     }
 
-    public function logout(LoginRequest $request)
+    public function logout(Request $request)
     {
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect('register')->with('success', 'Вы вышли из системы.');
+        return redirect('register');
     }
 }
