@@ -11,12 +11,12 @@ class Project extends Model
     protected $fillable = [
         'title',
         'description',
-        'user_id'
+        'creator_id'
     ];
 
-    public function users()
+    public function creator()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'creator_id');
     }
     public function tasks()
     {

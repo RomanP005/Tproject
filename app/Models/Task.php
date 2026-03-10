@@ -18,6 +18,7 @@ class Task extends Model
         'deadline',
         'project_id',
         'user_id',
+        'assignee_id'
     ];
 
     protected function casts()
@@ -39,15 +40,34 @@ class Task extends Model
     {
         return $this->belongsTo(User::class);
     }
-//    public function setStatusAttribute($value)
-//    {
-//        $allowedTransitions = [
-//            'new' => ['job'], 'job' => ['success'], 'success' => [],
-//        ];
-//        $old = $this->status ?? 'new';
-//        if ($old !== $value && !in_array($value, $allowedTransitions[$old] ?? [])) {
-//            throw new \Exception("Invalid status transition from {$old} to {$value}");
-//        }
-//        $this->attributes['status'] = $value;
-//    }
+    public function author()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+    public function assignee()
+    {
+        return $this->belongsTo(User::class, 'assignee_id');
+    }
+    public function setStatusAttribute($value)
+    {
+        if ($value instanceof \App\Enums\StatusEnum) {
+            $newStatus = $value->value;
+        } else {
+            $newStatus = $value;
+        }
+
+        $oldStatus = $this->status ? $this->status->value : 'Новый';
+
+        $allowedTransitions = [
+            'Новый'     => ['В работе'],
+            'В работе'  => ['Выполнена'],
+            'Выполнена' => [],
+        ];
+
+        if ($oldStatus !== $newStatus && !in_array($newStatus, $allowedTransitions[$oldStatus] ?? [])) {
+            throw new \InvalidArgumentException("Недопустимый переход статуса: из {$oldStatus} в {$newStatus}");
+        }
+
+        $this->attributes['status'] = $newStatus;
+    }
 }
