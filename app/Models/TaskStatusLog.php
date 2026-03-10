@@ -9,8 +9,8 @@ class TaskStatusLog extends Model
     protected $fillable = [
         'task_id',
         'user_id',
-        'old-status',
-        'new-status',
+        'old_status',
+        'new_status',
     ];
 
     public function task()
