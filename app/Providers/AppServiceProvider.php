@@ -2,13 +2,18 @@
 
 namespace App\Providers;
 
+use App\Models\Project;
+use App\Models\Task;
+use App\Observers\TaskObserver;
+use App\Policies\ProjectPolicy;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    /**
-     * Register any application services.
-     */
+    protected $policies = [
+        Project::class => ProjectPolicy::class,
+    ];
+
     public function register(): void
     {
         //
@@ -19,6 +24,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Task::observe(TaskObserver::class);
     }
 }
